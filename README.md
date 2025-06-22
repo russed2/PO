@@ -6,7 +6,7 @@
 
 # Практика 3
 Докер в фалах dockerfile и docker-compose.yml  
-CI/CD - в папке .git
+CI/CD и деплой - в папке .git ci-cd.yml
 # Практика 4
 
 # Практика 5
