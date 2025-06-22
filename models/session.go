@@ -9,7 +9,7 @@ type Session struct {
 	CreatedAt time.Time `gorm:"column:created_at;autoCreateTime" json:"created_at"`
 	ExpiresAt time.Time `gorm:"column:expires_at" json:"expires_at"`
 
-	User User `gorm:"foreignKey:UserID;references:id_user"`
+	User User `gorm:"foreignKey:UserID;references:ID"`
 }
 
 func (Session) TableName() string {

@@ -1,0 +1,28 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - prak2 
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Клонируем код
+      uses: actions/checkout@v4
+
+    - name: Устанавливаем Go
+      uses: actions/setup-go@v5
+      with:
+        go-version: '1.23'
+
+    - name: Скачиваем зависимости
+      run: go mod download
+
+    - name: Собираем проект
+      run: go build -v ./...
+
+    - name: Прогоняем тесты (потом)
+      run: go test ./...
