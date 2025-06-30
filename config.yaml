@@ -1,0 +1,26 @@
+app:
+  env: development
+  port: 8080
+  name: "Online Shop"
+  version: "1.0.0"
+
+database:
+  host: db
+  port: 5432
+  user: admin
+  password: 123
+  name: PO2SEM
+  
+logging:
+  level: info
+  file: logs/app.log
+  format: json
+
+jwt:
+  secret: secret-key
+  expiry_hours: 24
+
+server:
+  read_timeout: 30s
+  write_timeout: 30s
+  max_header_bytes: 1048576

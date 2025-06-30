@@ -13,6 +13,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  # Первый экземпляр Go приложения (основной)
   app:
     build: .
     ports:
@@ -25,6 +26,55 @@ services:
       DB_USER: admin
       DB_PASSWORD: 123
       DB_NAME: PO2SEM
+      SERVER_ID: "app-1"  # Для тестирования балансировки
+    volumes:
+    - ./logs:/app1/logs
+
+  # Второй экземпляр Go приложения
+  app2:
+    build: .
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: admin
+      DB_PASSWORD: 123
+      DB_NAME: PO2SEM
+      SERVER_ID: "app-2"  # Для тестирования балансировки
+    volumes:
+    - ./logs:/app2/logs
+
+  # Третий экземпляр Go приложения
+  app3:
+    build: .
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: admin
+      DB_PASSWORD: 123
+      DB_NAME: PO2SEM
+      SERVER_ID: "app-3"  # Для тестирования балансировки
+    volumes:
+    - ./logs:/app3/logs
+  
+  nginx:
+    image: nginx:latest
+    container_name: nginx_proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./certs:/etc/nginx/certs
+      - ./nginx_logs:/var/log/nginx  # Для логов
+    depends_on:
+      - app
+      - app2
+      - app3
 
 volumes:
   postgres_data:
+  nginx_logs:  # Том для логов nginx
